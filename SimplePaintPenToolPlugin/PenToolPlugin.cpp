@@ -14,14 +14,6 @@ QString PenToolPlugin::getPluginName() const
 
 void PenToolPlugin::mousePress(QPainter &painter, const QPoint &pos)
 {
-	painter.save();
-
-	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setPen(QPen(QBrush(QColor::black()), 1));
-
-	painter.drawPoint(pos);
-
-	painter.restore();
 }
 
 void PenToolPlugin::mouseMove(QPainter &painter, const QPoint &oldPos, const QPoint &newPos)
@@ -29,7 +21,7 @@ void PenToolPlugin::mouseMove(QPainter &painter, const QPoint &oldPos, const QPo
 	painter.save();
 
 	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setPen(QPen(QBrush(QColor::black()), 1));
+	painter.setPen(QPen(QBrush(Qt::black), 1));
 
 	painter.drawLine(oldPos, newPos);
 

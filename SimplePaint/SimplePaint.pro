@@ -20,12 +20,15 @@ SOURCES += main.cpp\
 HEADERS  += SimplePaint.h \
     CanvasWidget.h \
     ITool.h \
-    ToolPluginButton.h
+    ToolPluginButton.h \
+    IPenTool.h \
+    IEraserTool.h
 
 FORMS    += SimplePaint.ui \
     CanvasWidget.ui
 
-LIBS    += -L$$PWD/plugins/ -lsp_pentool
+LIBS    += -L$$PWD/plugins/ -lsp_pentool# -lsp_erasertool
+LIBS    += -L$$PWD/plugins/ -lsp_erasertool
 
 # デバッグビルドは_debugで終わるプラグインをロード
 if(!debug_and_release|build_pass):CONFIG(debug, debug|release) {

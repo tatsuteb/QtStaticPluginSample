@@ -5,6 +5,7 @@
 
 class QPainter;
 class QPoint;
+class QString;
 
 class ITool
 {

@@ -4,6 +4,7 @@
 #include <QtPlugin>
 
 Q_IMPORT_PLUGIN(PenToolPlugin)
+Q_IMPORT_PLUGIN(EraserToolPlugin)
 
 int main(int argc, char *argv[])
 {

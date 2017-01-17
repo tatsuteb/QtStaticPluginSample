@@ -42,11 +42,6 @@ void CanvasWidget::mousePressEvent(QMouseEvent *e)
 {
 	if (m_tool == nullptr) return;
 
-	QPainter painter(&m_canvasImage);
-	m_tool->mousePress(painter, e->pos());
-
-	update();
-
 	m_lastPos = e->pos();
 }
 

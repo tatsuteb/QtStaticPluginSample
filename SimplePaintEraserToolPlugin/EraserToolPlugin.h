@@ -1,19 +1,19 @@
-#ifndef SIMPLEPAINTPENTOOLPLUGIN_H
-#define SIMPLEPAINTPENTOOLPLUGIN_H
+#ifndef ERASERTOOLPLUGIN_H
+#define ERASERTOOLPLUGIN_H
 
-#include "IPenTool.h"
+#include "IEraserTool.h"
 
 #include <QObject>
 #include <QtPlugin>
 
-class PenToolPlugin : public QObject, public IPenTool
+class EraserToolPlugin : public QObject, public IEraserTool
 {
 		Q_OBJECT
-		Q_PLUGIN_METADATA(IID "jp.co.tatsuteb.SimplePaint.IPenTool.v1" FILE "PenTool.json")
-		Q_INTERFACES(IPenTool)
+		Q_PLUGIN_METADATA(IID "jp.co.tatsuteb.SimplePaint.IEraserTool.v1" FILE "EraserTool.json")
+		Q_INTERFACES(IEraserTool)
 
 	public:
-		PenToolPlugin();
+		EraserToolPlugin();
 
 		// ITool interface
 	public:
@@ -24,4 +24,4 @@ class PenToolPlugin : public QObject, public IPenTool
 		void mouseRelease(QPainter &painter, const QPoint &pos) Q_DECL_OVERRIDE;
 };
 
-#endif // SIMPLEPAINTPENTOOLPLUGIN_H
+#endif // ERASERTOOLPLUGIN_H

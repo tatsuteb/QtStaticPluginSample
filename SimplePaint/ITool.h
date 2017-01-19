@@ -12,7 +12,8 @@ class ITool
 	public:
 		virtual ~ITool() {}
 
-		virtual QString getPluginName() const = 0;
+		virtual QStringList getToolNames() const = 0;
+		virtual void setCurrentTool(const QString &toolName) = 0;
 
 		virtual void mousePress(QPainter &painter, const QPoint &pos) = 0;
 		virtual void mouseMove(QPainter &painter, const QPoint &oldPos, const QPoint &newPos) = 0;

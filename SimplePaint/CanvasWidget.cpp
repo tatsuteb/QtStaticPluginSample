@@ -22,9 +22,14 @@ CanvasWidget::~CanvasWidget()
 	delete ui;
 }
 
-void CanvasWidget::setCurrentTool(ITool *tool)
+void CanvasWidget::setTools(ITool &tools)
 {
-	m_tool = tool;
+	m_tools = &tools;
+}
+
+void CanvasWidget::setCurrentTool(const QString &toolName)
+{
+	m_tools->setCurrentTool(toolName);
 }
 
 void CanvasWidget::paintEvent(QPaintEvent *)
@@ -40,17 +45,17 @@ QSize CanvasWidget::sizeHint() const
 
 void CanvasWidget::mousePressEvent(QMouseEvent *e)
 {
-	if (m_tool == nullptr) return;
+	if (m_tools == nullptr) return;
 
 	m_lastPos = e->pos();
 }
 
 void CanvasWidget::mouseReleaseEvent(QMouseEvent *e)
 {
-	if (m_tool == nullptr) return;
+	if (m_tools == nullptr) return;
 
 	QPainter painter(&m_canvasImage);
-	m_tool->mouseRelease(painter, e->pos());
+	m_tools->mouseRelease(painter, e->pos());
 
 	update();
 
@@ -59,10 +64,10 @@ void CanvasWidget::mouseReleaseEvent(QMouseEvent *e)
 
 void CanvasWidget::mouseMoveEvent(QMouseEvent *e)
 {
-	if (m_tool == nullptr) return;
+	if (m_tools == nullptr) return;
 
 	QPainter painter(&m_canvasImage);
-	m_tool->mouseMove(painter, m_lastPos, e->pos());
+	m_tools->mouseMove(painter, m_lastPos, e->pos());
 
 	update();
 

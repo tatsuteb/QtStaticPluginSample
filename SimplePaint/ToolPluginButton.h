@@ -9,12 +9,12 @@ class ToolPluginButton : public QPushButton
 {
 		Q_OBJECT
 	public:
-		explicit ToolPluginButton(ITool *tool, QWidget *parent = 0);
+		explicit ToolPluginButton(const QString &toolName, QWidget *parent = 0);
 
-		ITool *getTool() const;
+		const QString &toolName() const;
 
 	private:
-		ITool *m_tool;
+		QString m_toolName;
 
 	signals:
 

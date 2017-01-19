@@ -1,13 +1,13 @@
 #include "ITool.h"
 #include "ToolPluginButton.h"
 
-ToolPluginButton::ToolPluginButton(ITool *tool, QWidget *parent) : QPushButton(parent),
-	m_tool(tool)
+ToolPluginButton::ToolPluginButton(const QString &toolName, QWidget *parent) : QPushButton(parent),
+	m_toolName(toolName)
 {
-	setText(m_tool->getPluginName());
+	setText(toolName);
 }
 
-ITool *ToolPluginButton::getTool() const
+const QString &ToolPluginButton::toolName() const
 {
-	return m_tool;
+	return m_toolName;
 }

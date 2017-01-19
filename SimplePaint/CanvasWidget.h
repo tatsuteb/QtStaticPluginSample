@@ -17,7 +17,8 @@ class CanvasWidget : public QWidget
 		explicit CanvasWidget(QWidget *parent = 0);
 		~CanvasWidget();
 
-		void setCurrentTool(ITool *tool);
+		void setTools(ITool &tools);
+		void setCurrentTool(const QString &toolName);
 		void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 		QSize sizeHint() const Q_DECL_OVERRIDE;
 
@@ -29,7 +30,7 @@ class CanvasWidget : public QWidget
 	private:
 		Ui::CanvasWidget *ui;
 
-		ITool *m_tool;
+		ITool *m_tools;
 		QImage m_canvasImage;
 		QPoint m_lastPos;
 

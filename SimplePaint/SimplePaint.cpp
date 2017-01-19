@@ -14,13 +14,11 @@ SimplePaint::SimplePaint(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	loadPlugins();
-
-	for (auto tool : m_tools)
+	if (loadPlugins())
 	{
-		qDebug() << tool->getPluginName();
+		addTools(*m_tools);
+		ui->widget_canvas->setTools(*m_tools);
 	}
-
 }
 
 SimplePaint::~SimplePaint()
@@ -28,32 +26,47 @@ SimplePaint::~SimplePaint()
 	delete ui;
 }
 
-void SimplePaint::loadPlugins()
+bool SimplePaint::loadPlugins()
 {
 	for (QObject *plugin : QPluginLoader::staticInstances())
 	{
-		m_tools << qobject_cast<ITool *>(plugin);
+		// キャストに失敗したら0が返る
+		m_tools = qobject_cast<ITool *>(plugin);
+
+		// ロードしたプラグインがIToolだったらループを抜ける
+		if (m_tools != 0)
+		{
+			return true;
+		}
 	}
 
+	return false;
+}
+
+void SimplePaint::addTools(const ITool &m_tools)
+{
 	QButtonGroup *toolButtonGroup = new QButtonGroup();
 	QVBoxLayout *vLayout = new QVBoxLayout();
-	for (auto tool : m_tools)
+
+	QStringList toolNames = m_tools.getToolNames();
+	for (const auto &name : toolNames)
 	{
-		ToolPluginButton *pushButton_tool = new ToolPluginButton(tool);
+		ToolPluginButton *pushButton_tool = new ToolPluginButton(name);
 		pushButton_tool->setCheckable(true);
 		connect(pushButton_tool, &ToolPluginButton::clicked, this, &SimplePaint::changeTool);
 
 		toolButtonGroup->addButton(pushButton_tool);
-
 		vLayout->addWidget(pushButton_tool);
 	}
-	ui->frame_tools->setLayout(vLayout);
 
+	vLayout->addStretch();
+
+	ui->frame_tools->setLayout(vLayout);
 }
 
 void SimplePaint::changeTool()
 {
 	auto button = qobject_cast<ToolPluginButton *>(sender());
 
-	ui->widget_canvas->setCurrentTool(button->getTool());
+	m_tools->setCurrentTool(button->toolName());
 }

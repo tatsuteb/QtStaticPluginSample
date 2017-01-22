@@ -3,7 +3,8 @@
 #include <QPainter>
 
 
-PenToolPlugin::PenToolPlugin()
+PenToolPlugin::PenToolPlugin():
+	m_penSize(1)
 {
 }
 
@@ -17,7 +18,7 @@ void PenToolPlugin::mousePress(QPainter &painter, const QPoint &pos)
 	painter.save();
 
 	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setPen(QPen(QBrush(QColor::black()), 1));
+	painter.setPen(QPen(QBrush(Qt::GlobalColor::black), m_penSize));
 
 	painter.drawPoint(pos);
 
@@ -29,7 +30,7 @@ void PenToolPlugin::mouseMove(QPainter &painter, const QPoint &oldPos, const QPo
 	painter.save();
 
 	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setPen(QPen(QBrush(QColor::black()), 1));
+	painter.setPen(QPen(QBrush(Qt::GlobalColor::black), m_penSize));
 
 	painter.drawLine(oldPos, newPos);
 

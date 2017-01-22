@@ -18,12 +18,11 @@ class SimplePaint : public QMainWindow
 		~SimplePaint();
 
 	private:
-		void loadPlugins();
+		QList<ITool *> loadToolPlugins();
+		void setUpToolButtons(QList<ITool *> &tools);
 
 	private:
 		Ui::SimplePaint *ui;
-
-		QList<ITool *> m_tools;
 
 	private slots:
 		void changeTool();

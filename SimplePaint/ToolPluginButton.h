@@ -15,10 +15,6 @@ class ToolPluginButton : public QPushButton
 
 	private:
 		ITool *m_tool;
-
-	signals:
-
-	public slots:
 };
 
 #endif // TOOLPLUGINBUTTON_H

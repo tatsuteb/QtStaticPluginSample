@@ -19,7 +19,6 @@ class CanvasWidget : public QWidget
 
 		void setCurrentTool(ITool *tool);
 		void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-		QSize sizeHint() const Q_DECL_OVERRIDE;
 
 	protected:
 		void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
@@ -27,12 +26,15 @@ class CanvasWidget : public QWidget
 		void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
 
 	private:
+		const static QColor BACKGROUND_COLOR;
+		const static QSize INITIAL_IMAGE_SIZE;
+
+	private:
 		Ui::CanvasWidget *ui;
 
 		ITool *m_tool;
 		QImage m_canvasImage;
 		QPoint m_lastPos;
-
 };
 
 #endif // CANVASWIDGET_H

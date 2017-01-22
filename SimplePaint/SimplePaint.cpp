@@ -14,13 +14,8 @@ SimplePaint::SimplePaint(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	loadPlugins();
-
-	for (auto tool : m_tools)
-	{
-		qDebug() << tool->getPluginName();
-	}
-
+	QList<ITool *> loadedTools = loadToolPlugins();
+	setUpToolButtons(loadedTools);
 }
 
 SimplePaint::~SimplePaint()
@@ -28,27 +23,47 @@ SimplePaint::~SimplePaint()
 	delete ui;
 }
 
-void SimplePaint::loadPlugins()
+QList<ITool *> SimplePaint::loadToolPlugins()
 {
+	QList<ITool *> tools;
 	for (QObject *plugin : QPluginLoader::staticInstances())
 	{
-		m_tools << qobject_cast<ITool *>(plugin);
+		// qobject_castはキャストに失敗すると0を返す
+		auto tool = qobject_cast<ITool *>(plugin);
+
+		// ITool以外のプラグインは無視
+		if (!tool)
+		{
+			continue;
+		}
+
+		tools << tool;
+	}
+
+	return tools;
+}
+
+void SimplePaint::setUpToolButtons(QList<ITool *> &tools)
+{
+	if (tools.isEmpty())
+	{
+		return;
 	}
 
 	QButtonGroup *toolButtonGroup = new QButtonGroup();
 	QVBoxLayout *vLayout = new QVBoxLayout();
-	for (auto tool : m_tools)
+	for (auto tool : tools)
 	{
 		ToolPluginButton *pushButton_tool = new ToolPluginButton(tool);
 		pushButton_tool->setCheckable(true);
 		connect(pushButton_tool, &ToolPluginButton::clicked, this, &SimplePaint::changeTool);
 
 		toolButtonGroup->addButton(pushButton_tool);
-
 		vLayout->addWidget(pushButton_tool);
 	}
-	ui->frame_tools->setLayout(vLayout);
+	vLayout->addStretch();
 
+	ui->frame_tools->setLayout(vLayout);
 }
 
 void SimplePaint::changeTool()

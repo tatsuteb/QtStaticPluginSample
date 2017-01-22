@@ -1,20 +1,24 @@
 #include "CanvasWidget.h"
-#include "ITool.h"
 #include "ui_CanvasWidget.h"
+
+#include "ITool.h"
 
 #include <QMouseEvent>
 #include <QPainter>
 
+const QColor CanvasWidget::BACKGROUND_COLOR = Qt::white;
+const QSize CanvasWidget::INITIAL_IMAGE_SIZE = QSize(100, 100);
+
 CanvasWidget::CanvasWidget(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::CanvasWidget),
-	m_lastPos(QPoint(0, 0))/*,
-	canvasImage(QImage(this->size(), QImage::Format_RGB32))*/
+	m_tool(nullptr),
+	m_canvasImage(QImage(INITIAL_IMAGE_SIZE, QImage::Format_ARGB32_Premultiplied)),
+	m_lastPos(QPoint(0, 0))
 {
 	ui->setupUi(this);
 
-	m_canvasImage = QImage(this->size(), QImage::Format_RGB32);
-	m_canvasImage.fill(Qt::white);
+	m_canvasImage.fill(BACKGROUND_COLOR);
 }
 
 CanvasWidget::~CanvasWidget()
@@ -30,12 +34,21 @@ void CanvasWidget::setCurrentTool(ITool *tool)
 void CanvasWidget::paintEvent(QPaintEvent *)
 {
 	QPainter painter(this);
-	painter.drawImage(QPoint(0, 0), m_canvasImage);
-}
 
-QSize CanvasWidget::sizeHint() const
-{
-	return m_canvasImage.size();
+	// キャンバスがm_canvasImageより大きいときだけ、m_canvasImageを広げる
+	if (m_canvasImage.size().width() < this->size().width() ||
+		m_canvasImage.size().height() < this->size().height())
+	{
+		QImage img(m_canvasImage.size().expandedTo(this->size()), m_canvasImage.format());
+		img.fill(BACKGROUND_COLOR);
+
+		QPainter imgPainter(&img);
+		imgPainter.drawImage(QPoint(0, 0), m_canvasImage);
+
+		m_canvasImage = img;
+	}
+
+	painter.drawImage(QPoint(0, 0), m_canvasImage);
 }
 
 void CanvasWidget::mousePressEvent(QMouseEvent *e)

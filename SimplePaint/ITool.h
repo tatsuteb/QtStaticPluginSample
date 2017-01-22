@@ -18,7 +18,9 @@ class ITool
 		virtual void mouseRelease(QPainter &painter, const QPoint &pos) = 0;
 };
 
-#define ITool_iid "jp.co.tatsuteb.SimplePaint.ITool.v1"
+// ここで指定したIDと、インターフェースクラスを関連づける
+// ロードしたプラグインが、このインターフェースの実装を持っているかどうか照会するのに使われる
+#define ITool_iid "jp.tatsuteb.SimplePaint.ITool.v1"
 Q_DECLARE_INTERFACE(ITool, ITool_iid)
 
 #endif // ITOOL_H

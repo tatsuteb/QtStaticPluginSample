@@ -1,1 +1,3 @@
-# QtStaticPluginSample
+# QtStaticPluginSample  
+スタティックプラグインを使ったサンプルプログラム  
+ペンツールと消しゴムツールをスタティックプラグインとして作成  
